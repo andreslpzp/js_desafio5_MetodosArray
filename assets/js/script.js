@@ -1,14 +1,16 @@
-// Seleciconamos el formulario, input y contenedor de las tareas
+// Seleccionamos el formulario, input y contenedor de las tareas
 const formulario = document.querySelector('#formulario')
 const inputTarea = document.querySelector('#tarea')
 const listaTareas = document.querySelector('#lista-tareas')
+const totalTareas = document.querySelector('#total-tareas')
+const tareasCompletadas = document.querySelector('#tareas-completadas')
 
 //Definimos un array inicial de tareas
 
 let tareas = [
-    { id: 1, texto: "Tarea 1", completa: false },
-    { id: 2, texto: "Tarea 2", completa: true },
-    { id: 3, texto: "Tarea 3", completa: false }
+    { id: 1, texto: "Hacer las compras", completa: false },
+    { id: 2, texto: "Limpiar la cocina", completa: true },
+    { id: 3, texto: "Preparar la cena", completa: false }
 ]
 
 // Función para cargar las tareas en pantalla
@@ -22,29 +24,50 @@ const renderTareas = ()=> {
     tareas.forEach((tarea)=> {
         html += `
             <li id="${tarea.id}">
+                <span class="task-id">${tarea.id}</span>
                 <span class="${tarea.completa ? 'completa' : ''}">${tarea.texto}</span>
-                <button class="completar">Completar</button>
-                <button class="eliminar">Eliminar</button>
+                <input type="checkbox" class="toggle-check" id="check-${tarea.id}" ${tarea.completa ? 'checked' : ''}>
+                <button class="eliminar">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </li>
-        `
-    })
+    `;
+});
 
     // Se carga el contenido en pantalla
     listaTareas.innerHTML = html
 
     // Agregamos los eventos que tendrán los botones
+    actualizarTotal()
+    contarCheckboxMarcados()
     completarTareas()
     eliminarTareas()
 }
 
+// Función para actualizar el total de tareas
+const actualizarTotal = () => {
+    totalTareas.textContent = tareas.length
+}
+
+const contarCheckboxMarcados = () => {
+    const checkboxes = document.querySelectorAll('.toggle-check');
+    let count = 0;
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            count++;
+        }
+    });
+    return count;
+};
+
 // Funcion para agregar la accion de completar una tarea
 const completarTareas = ()=> {
     // Seleccionamos todos los botones completar
-    const botones = document.querySelectorAll("#lista-tareas .completar")
+    const checkboxes = document.querySelectorAll("#lista-tareas .completar")
 
     // Por cada boton, agregamos un evento click
-    botones.forEach((btn)=> {
-        btn.addEventListener('click', ()=> {
+    checkboxes.forEach((checkbox)=> {
+        checkbox.addEventListener('click', ()=> {
             // Cuando el evento ocurra, buscaremos gracias a la ID el index en el array de la tarea correspondiente
             // Como en el elemento HTML la ID pertenece al padre del boton, utilizamos parentNode
             const index = tareas.findIndex((elemento)=> elemento.id == btn.parentNode.id)

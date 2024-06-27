@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Lista de tareas</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <form id="formulario">
         <input id="tarea" type="text">
-        <button>Agregar</button>
+        <button id="agregar">Agregar</button>
     </form>
+
+    <div class="contadores">
+        <p>Total de tareas: <span id="total-tareas">0</span></p>
+        <p>Tareas completadas: <span id="tareas-completadas">0</span></p>
+    </div>
+
 
     <h3>Tareas:</h3>
     <ul id="lista-tareas"></ul>
 </body>
 
-<script src="./script.js"></script>
+<script src="./assets/js/script.js"></script>
 </html>

@@ -1,0 +1,36 @@
+li {
+    margin-bottom: 1rem;
+}
+
+#formulario{
+    display: flex;
+}
+
+#agregar{
+    background-color: grey;
+    margin-left: 1rem;
+    border: solid;
+    border-color: azure;
+    border-radius: 10%;
+    padding: 0.5rem;
+    color: white;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+button.completar {
+    color: green;
+}
+
+button.eliminar {
+    color: red;
+}
