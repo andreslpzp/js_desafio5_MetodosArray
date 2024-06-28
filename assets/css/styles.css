@@ -27,10 +27,6 @@ button i {
     margin-right: 5px;
 }
 
-button.completar {
-    color: green;
-}
-
 button.eliminar {
     color: red;
 }

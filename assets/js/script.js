@@ -1,3 +1,4 @@
+
 // Seleccionamos el formulario, input y contenedor de las tareas
 const formulario = document.querySelector('#formulario')
 const inputTarea = document.querySelector('#tarea')
@@ -5,8 +6,7 @@ const listaTareas = document.querySelector('#lista-tareas')
 const totalTareas = document.querySelector('#total-tareas')
 const tareasCompletadas = document.querySelector('#tareas-completadas')
 
-//Definimos un array inicial de tareas
-
+// Definimos un array inicial de tareas
 let tareas = [
     { id: 1, texto: "Hacer las compras", completa: false },
     { id: 2, texto: "Limpiar la cocina", completa: true },
@@ -31,15 +31,15 @@ const renderTareas = ()=> {
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </li>
-    `;
-});
+        `;
+    });
 
     // Se carga el contenido en pantalla
     listaTareas.innerHTML = html
 
     // Agregamos los eventos que tendrán los botones
     actualizarTotal()
-    contarCheckboxMarcados()
+    actualizarTareasCompletadas()
     completarTareas()
     eliminarTareas()
 }
@@ -49,7 +49,8 @@ const actualizarTotal = () => {
     totalTareas.textContent = tareas.length
 }
 
-const contarCheckboxMarcados = () => {
+// Función para contar los checkboxes marcados y actualizar el HTML
+const actualizarTareasCompletadas = () => {
     const checkboxes = document.querySelectorAll('.toggle-check');
     let count = 0;
     checkboxes.forEach(checkbox => {
@@ -57,23 +58,22 @@ const contarCheckboxMarcados = () => {
             count++;
         }
     });
-    return count;
-};
+    tareasCompletadas.textContent = count;
+}
 
-// Funcion para agregar la accion de completar una tarea
-const completarTareas = ()=> {
+// Función para agregar la acción de completar una tarea
+const completarTareas = () => {
     // Seleccionamos todos los botones completar
-    const checkboxes = document.querySelectorAll("#lista-tareas .completar")
+    const checkboxes = document.querySelectorAll("#lista-tareas .toggle-check")
 
-    // Por cada boton, agregamos un evento click
-    checkboxes.forEach((checkbox)=> {
-        checkbox.addEventListener('click', ()=> {
+    // Por cada checkbox, agregamos un evento click
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
             // Cuando el evento ocurra, buscaremos gracias a la ID el index en el array de la tarea correspondiente
-            // Como en el elemento HTML la ID pertenece al padre del boton, utilizamos parentNode
-            const index = tareas.findIndex((elemento)=> elemento.id == btn.parentNode.id)
+            const index = tareas.findIndex((elemento) => elemento.id == checkbox.parentNode.id)
 
-            // Al tener el index, podemos acceder al array de tareas en esa posicion, acceder al campo completa
-            // y modificar su valor. Como es booleano, podemos reasignarlo a su opuesto para gener un toggle
+            // Al tener el index, podemos acceder al array de tareas en esa posición, acceder al campo completa
+            // y modificar su valor. Como es booleano, podemos reasignarlo a su opuesto para generar un toggle
             tareas[index].completa = !tareas[index].completa
             
             // Volvemos a llamar a renderTareas para generar una versión actualizada del listado de tareas
@@ -82,30 +82,26 @@ const completarTareas = ()=> {
     })
 }
 
-// Funcion para agregar la acción de eliminar una tarea
-const eliminarTareas = ()=> {
+// Función para agregar la acción de eliminar una tarea
+const eliminarTareas = () => {
     // Seleccionamos los botones de eliminar
     const botones = document.querySelectorAll("#lista-tareas .eliminar")
 
-    // Por cada boton, agregamos un evento click
-    botones.forEach((btn)=> {
-        btn.addEventListener("click", ()=> {
+    // Por cada botón, agregamos un evento click
+    botones.forEach((btn) => {
+        btn.addEventListener("click", () => {
             // Para eliminar la tarea podemos buscar el index de la tarea correspondiente y luego utilizar splice
             // o podemos utilizar filter para devolver todas las tareas cuya ID no sea la de la tarea a eliminar
+            tareas = tareas.filter((elemento) => elemento.id != btn.parentNode.id)
 
-            // const index = tareas.findIndex((elemento)=> elemento.id == btn.parentNode.id)
-            // tareas.splice(index, 1)
-            tareas = tareas.filter((elemento)=> elemento.id != btn.parentNode.id)
-
-            // Actualizamos el listado de tareas en patanlla
+            // Actualizamos el listado de tareas en pantalla
             renderTareas()
         })
     })
 }
 
-
 // Al cargar la página, agregamos el evento al formulario
-formulario.addEventListener('submit', (e)=> {
+formulario.addEventListener('submit', (e) => {
     e.preventDefault()
 
     // Creamos un nuevo objeto tarea que tiene una ID, el contenido y su campo completa como false
